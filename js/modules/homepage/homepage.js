@@ -76,10 +76,17 @@ export default class Homepage extends Component {
         })
     }
 
+    goToStartup = () => {
+      this.props.navigator.pop({
+         name: 'Startup',
+         title: 'Startup'
+      });
+   }
+
   	render() {
 	    return (
 	      	<Container>
-		      	<Header searchBar rounded>                            
+	      		<Header searchBar rounded>                            
 				    <InputGroup>                        
 				        <Icon name="ios-search" />                        
 				        <Input placeholder="Search..." value={this.state.search}  onChangeText={(text) => this.setState({search:text})} onSubmitEditing={()=>this.search()}/>                    
@@ -88,7 +95,7 @@ export default class Homepage extends Component {
 				</Header>
 
 				<Content>
-					
+					<Button onPress = {this.goToStartup}>Go to back</Button>
 					<List dataArray={this.state.results.items} renderRow={(item) =>               
 					    <ListItem button onPress={()=>this.setModalVisible(true, item)}> 
 					        <Thumbnail square size={80} source={{uri: item.owner.avatar_url}} />

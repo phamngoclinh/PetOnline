@@ -1,4 +1,4 @@
-import { Container, Content, Text} from 'native-base';
+import { Container, Content, Header, InputGroup, Input, Icon, Button, Text} from 'native-base';
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -20,17 +20,17 @@ export default class Startup extends Component {
 	componentDidMount() {
 		let _this = this;
 
-		_this.props.setParentState({
-			currentPage : 'homepage'
-		});
+		// _this.props.setParentState({
+		// 	currentPage : 'homepage'
+		// });
 	}
 
 	componentWillMount() {
 		let _this = this;
 
-		_this.props.setParentState({
-			currentPage : 'homepage'
-		});
+		// _this.props.setParentState({
+		// 	currentPage : 'homepage'
+		// });
 	}
 
 	loadingData() {
@@ -40,11 +40,26 @@ export default class Startup extends Component {
         })
     }
 
+    openMenu = () =>{
+    	alert("Menu button pressed!")
+    }
+
+    goToHome = () => {
+      this.props.navigator.push({
+         name: 'Home',
+         title: 'Home',
+         openMenu: this.openMenu
+      });
+   }
+
   	render() {
 	    return (
-	      	<Content>
-		      	<Text>Loading page....</Text>
-	      	</Content>
+	      	<Container>
+	      		<Content>
+			      	<Text>Loading page....</Text>
+			      	<Button onPress = {this.goToHome}>Go to home</Button> 
+		      	</Content>
+	      	</Container>
 	    );
   	}
 }
