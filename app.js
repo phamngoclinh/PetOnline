@@ -7,9 +7,16 @@ import {
   Modal,
   Image,
   Navigator,
-  TouchableOpacity
+  TouchableOpacity,
+  BackAndroid
 } from 'react-native';
 
+// import { closeDrawer } from './actions/drawer';
+
+import Drawer from 'react-native-drawer';
+
+
+import Sidebar from './js/components/sidebar/sidebar';
 import Startup from './js/modules/startup/startup';
 import Homepage from './js/modules/homepage/homepage';
 
@@ -22,17 +29,66 @@ import Homepage from './js/modules/homepage/homepage';
                   routeMapper = { NavigationBarRouteMapper } />
             } />*/
 
+const drawerStyles = {
+	  drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3},
+	  main: {paddingLeft: 3},
+	}
+
 export default class App extends Component {
    constructor(){
       super()
    }
-   render() {
-      return (
-         <Navigator
-            initialRoute = {{ name: 'Startup', title: 'Startup' }}
-            renderScene = { this.renderScene } />
-      );
+
+   componentDidMount() {
+   		BackAndroid.addEventListener('hardwareBackPress', () => {
+	      // if (this.navigation.name === 'Homepage' || this.navigation.name === 'Startup') {
+	      //   return false;
+	      // }
+
+	      // this.popRoute(this.navigation.key);
+	      // return true;
+	      alert("BackAndroid is pressed!");
+	    });
    }
+
+   	closeSidebar = () => {
+    	this._drawer.close()
+  	};
+  	openSidebar = () => {
+    	this._drawer.open()
+  	};
+
+
+
+   	render() {
+      	return (
+	        <Drawer
+		        ref={(ref) => this._drawer = ref}
+		        type="overlay"
+		        content= {<Sidebar
+	        		closeSidebar = {this.closeSidebar}
+	        		openSidebar = {this.openSidebar}
+		        />}
+		     	tapToClose={true}
+				openDrawerOffset={0.2}
+				panCloseMask={0.2}
+				closedDrawerOffset={-3}
+				styles={drawerStyles}
+				tweenHandler={(ratio) => ({
+				    main: { opacity:(2-ratio)/2 }
+				})}
+		    >
+
+		      	<Button onPress = {this.openSidebar}>Toggle Sidebar</Button>
+	         	<Navigator
+		            initialRoute = {{ name: 'Startup', title: 'Startup' }}
+		            renderScene = { this.renderScene }
+		        />
+
+	        </Drawer>
+      	);
+   	}
+
    renderScene(route, navigator) {
       if(route.name == 'Startup') {
         return (
@@ -105,6 +161,9 @@ const styles = StyleSheet.create({
       fontSize: 16
    }
 })
+
+
+AppRegistry.registerComponent('PetOnline', () => App);
 
 // export default class App extends Component {
 //   	constructor(props) {
@@ -216,7 +275,6 @@ const styles = StyleSheet.create({
 		  //   		}
 				// </Content>
 		  //   </Container>
-AppRegistry.registerComponent('PetOnline', () => App);
 
 
 
