@@ -28,6 +28,13 @@ export default class Sidebar extends Component {
     this.props.navigateTo(route, 'home');
   }
 
+  goToCategory = () => {
+    this.props.navigator.push({
+      name: 'Category',
+      title: 'Category'
+    });
+  }
+
   render() {
     return (
       <Container>
@@ -48,7 +55,7 @@ export default class Sidebar extends Component {
 
             <View style={styles.sidebarContent}>
                 <Card style={styles.sidebarMenu}>
-                    <CardItem style={styles.sidebarMenuButton} transparent button onPress={() => this.props.closeSidebar}>
+                    <CardItem style={styles.sidebarMenuButton} transparent button onPress={this.goToCategory}>
                         <Icon name='ios-home'/>
                         <Text>DASHBOARD</Text>
                         <Badge style={styles.badgeButton}>2</Badge>

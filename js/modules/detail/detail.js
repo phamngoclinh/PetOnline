@@ -1,4 +1,4 @@
-import { Container, Content, Header, InputGroup, Input, Icon, Button, Text} from 'native-base';
+import { Container, Content, Header, Footer, FooterTab, Badge, InputGroup, Input, Icon, Button, Text, Title} from 'native-base';
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -42,7 +42,14 @@ export default class Detail extends Component {
 
   	render() {
 	    return (
-	      	<Container>
+	      	<Container style={{backgroundColor: '#ffffff'}}>
+	      		<Header>
+                    <Button transparent onPress = {this.goToBack}>
+                        <Icon name='ios-arrow-back' />
+                    </Button>
+                    
+                    <Title>{this.props.data}</Title>
+                </Header>
 	      		<Content>
 			      	<Text>Detail page....</Text>
 			      	<Button onPress = {this.goToBack}>Go to back</Button>

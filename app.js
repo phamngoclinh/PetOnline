@@ -1,4 +1,4 @@
-import { Container, Header, Title, List, ListItem, InputGroup, Spinner, Card, CardItem, Input, Icon, Button, Content, Text, Thumbnail } from 'native-base';
+import { Container, Header, Footer, FooterTab, Tabs, Badge, Title, List, ListItem, InputGroup, Spinner, Card, CardItem, Input, Icon, Button, Content, Text, Thumbnail } from 'native-base';
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -59,7 +59,6 @@ export default class App extends Component {
     	alert("Menu button pressed!")
     };
 
-
    	render() {
       	return (
 	        <Drawer
@@ -82,8 +81,29 @@ export default class App extends Component {
 
 	         	<Navigator
 		            initialRoute = {{ name: 'Home', title: 'Home' }}
-		            renderScene = { this.renderScene }
-		        />
+		            renderScene = { this.renderScene } />
+
+		        <Footer>
+					<FooterTab>
+                        <Button>
+                            <Badge>2</Badge>
+                            Apps
+                            <Icon name='ios-apps-outline' />
+                        </Button>
+                        <Button>
+                            Camera
+                            <Icon name='ios-camera-outline' />
+                        </Button>
+                        <Button active>
+                            Navigate
+                            <Icon name='ios-compass' />
+                        </Button>
+                        <Button>
+                            Contact
+                            <Icon name='ios-contact-outline' />
+                        </Button>
+                    </FooterTab>
+				</Footer>
 
 	        </Drawer>
       	);
