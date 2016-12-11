@@ -20,6 +20,7 @@ import Homepage from './js/modules/homepage/homepage';
 import Category from './js/modules/category/category';
 import Detail from './js/modules/detail/detail';
 import Signup from './js/modules/signup/signup';
+import Login from './js/modules/login/login';
 
 /*<Navigator
             initialRoute = {{ name: 'Startup', title: 'Startup' }}
@@ -67,12 +68,12 @@ export default class App extends Component {
 		        content= {<Sidebar
 	        		closeSidebar = {this.closeSidebar}
 		        />}
-		     	tapToClose={true}
-				openDrawerOffset={0.2}
-				panCloseMask={0.2}
-				closedDrawerOffset={-3}
-				styles={drawerStyles}
-				tweenHandler={(ratio) => ({
+		     	  tapToClose={true}
+				    openDrawerOffset={0.2}
+				    panCloseMask={0.2}
+				    closedDrawerOffset={-3}
+				    styles={drawerStyles}
+				    tweenHandler={(ratio) => ({
 				    main: { opacity:(10-ratio)/2 }
 				})}
 		    >
@@ -80,7 +81,7 @@ export default class App extends Component {
 		      	<Button onPress = {this.openSidebar}>Toggle Sidebar</Button>
 
 	         	<Navigator
-		            initialRoute = {{ name: 'Home', title: 'Home' }}
+		            initialRoute = {{ name: 'Startup', title: 'Startup' }}
 		            renderScene = { this.renderScene } />
 
 		        <Footer>
@@ -138,6 +139,21 @@ export default class App extends Component {
                {...route.passProps} />
         )
       }
+      if(route.name == 'Signup') {
+        return (
+            <Signup
+               navigator = {navigator}
+               {...route.passProps} />
+        )
+      }
+      if(route.name == 'Login') {
+        return (
+            <Login
+               navigator = {navigator}
+               {...route.passProps} />
+        )
+      }
+
    }
 }
 
