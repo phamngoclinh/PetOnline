@@ -12,6 +12,7 @@ import {
 
 import Startup from './js/modules/startup/startup';
 import Homepage from './js/modules/homepage/homepage';
+import Signup from './js/modules/signup/signup';
 
 /*<Navigator
             initialRoute = {{ name: 'Startup', title: 'Startup' }}
@@ -44,6 +45,13 @@ export default class App extends Component {
       if(route.name == 'Home') {
         return (
             <Homepage
+               navigator = {navigator}
+               {...route.passProps} />
+        )
+      }
+      if(route.name == 'Signup') {
+        return (
+            <Signup
                navigator = {navigator}
                {...route.passProps} />
         )
