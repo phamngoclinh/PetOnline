@@ -8,31 +8,21 @@ import {
   Image
 } from 'react-native';
 
-export default class Startup extends Component {
+export default class Detail extends Component {
   	constructor(props) {
 	    super(props);
 	    this.state = {
 	        loading: false,
 	        is_loading_data: false
 	    };
-
-	    this.goToSignup = this.goToSignup.bind(this);
 	}
 
 	componentDidMount() {
 		let _this = this;
-
-		// _this.props.setParentState({
-		// 	currentPage : 'homepage'
-		// });
 	}
 
 	componentWillMount() {
 		let _this = this;
-
-		// _this.props.setParentState({
-		// 	currentPage : 'homepage'
-		// });
 	}
 
 	loadingData() {
@@ -46,32 +36,20 @@ export default class Startup extends Component {
     	alert("Menu button pressed!")
     }
 
-    goToHome = () => {
-      this.props.navigator.push({
-         name: 'Home',
-         title: 'Home',
-         openMenu: this.openMenu
-      });
-   }
-
-   goToSignup = () => {
-      this.props.navigator.push({
-         name: 'Signup',
-         title: 'Signup',
-         openMenu: this.openMenu
-      });
+    goToBack = () => {
+      this.props.navigator.pop();
    }
 
   	render() {
 	    return (
 	      	<Container>
 	      		<Content>
-			      	<Text>Loading page....</Text>
-			      	<Button onPress = {this.goToSignup}>Go to singup</Button> 
+			      	<Text>Detail page....</Text>
+			      	<Button onPress = {this.goToBack}>Go to back</Button>
 		      	</Content>
 	      	</Container>
 	    );
   	}
 }
 
-AppRegistry.registerComponent('Startup', () => Startup);
+AppRegistry.registerComponent('Detail', () => Detail);
