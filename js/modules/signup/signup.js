@@ -62,11 +62,15 @@ export default class Signup extends Component {
   }
 
   goNext = () => {
-  this.props.navigator.push({
-   name: 'Home',
-   title: 'Home',
-   notify: this.notify
-  });
+    this.props.navigator.push({
+      name: 'Home',
+      title: 'Home',
+      notify: this.notify
+    });
+  }
+
+  doCheckPassword = () => {
+
   }
 
   render() {
@@ -74,13 +78,13 @@ export default class Signup extends Component {
       <Container>
         <Content>
           <Grid>
-            <Row style={{ backgroundColor: '#e6eeff', height: 200 }}>
+            <Row style={{ backgroundColor: '#e6eeff'}}>
               <Content> 
                 <Text >Put Our Icon here !</Text>
               </Content>
             </Row>
 
-            <Row style={{ backgroundColor: '#e6eeff', height: 400 }}>
+            <Row style={{ backgroundColor: '#e6eeff'}}>
               <Content>
                 <List>
                   <ListItem>
@@ -101,7 +105,14 @@ export default class Signup extends Component {
                       <Icon name="ios-unlock" />
                       <Input style={{height: 40}} placeholder="PASSWORD" secureTextEntry={true}/>
                     </InputGroup>
-                  </ListItem>   
+                  </ListItem>  
+
+                  <ListItem>
+                    <InputGroup style={{marginTop: 20, marginBottom: 20}}>
+                      <Icon name="ios-unlock" />
+                      <Input style={{height: 40}} placeholder="RE-ENTER PASSWORD" secureTextEntry={true}/>
+                    </InputGroup>
+                  </ListItem> 
 
                   <Button style={{ alignSelf: 'auto', marginTop: 20, marginBottom: 20 }} onPress={this.goNext}> Sign Up </Button>      
                   <Button style={{ alignSelf: 'auto', marginTop: 20, marginBottom: 20 }} onPress={this.goCancel}> Cancel </Button>   
