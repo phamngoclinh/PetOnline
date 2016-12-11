@@ -8,7 +8,7 @@ import {
   Image
 } from 'react-native';
 
-export default class Category extends Component {
+export default class Detail extends Component {
   	constructor(props) {
 	    super(props);
 	    this.state = {
@@ -19,18 +19,10 @@ export default class Category extends Component {
 
 	componentDidMount() {
 		let _this = this;
-
-		// _this.props.setParentState({
-		// 	currentPage : 'homepage'
-		// });
 	}
 
 	componentWillMount() {
 		let _this = this;
-
-		// _this.props.setParentState({
-		// 	currentPage : 'homepage'
-		// });
 	}
 
 	loadingData() {
@@ -48,24 +40,16 @@ export default class Category extends Component {
       this.props.navigator.pop();
    }
 
-   goToDetail = () => {
-      this.props.navigator.push({
-      	name : "Detail",
-      	title : "Detail"
-      });
-   }
-
   	render() {
 	    return (
 	      	<Container>
 	      		<Content>
-			      	<Text>Category page....</Text>
+			      	<Text>Detail page....</Text>
 			      	<Button onPress = {this.goToBack}>Go to back</Button>
-			      	<Button onPress = {this.goToDetail}>Go to detail</Button> 
 		      	</Content>
 	      	</Container>
 	    );
   	}
 }
 
-AppRegistry.registerComponent('Category', () => Category);
+AppRegistry.registerComponent('Detail', () => Detail);

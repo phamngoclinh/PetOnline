@@ -11,14 +11,14 @@ import {
   BackAndroid
 } from 'react-native';
 
-// import { closeDrawer } from './actions/drawer';
-
 import Drawer from 'react-native-drawer';
 
 
 import Sidebar from './js/components/sidebar/sidebar';
 import Startup from './js/modules/startup/startup';
 import Homepage from './js/modules/homepage/homepage';
+import Category from './js/modules/category/category';
+import Detail from './js/modules/detail/detail';
 
 /*<Navigator
             initialRoute = {{ name: 'Startup', title: 'Startup' }}
@@ -29,10 +29,6 @@ import Homepage from './js/modules/homepage/homepage';
                   routeMapper = { NavigationBarRouteMapper } />
             } />*/
 
-const drawerStyles = {
-	  drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3},
-	  main: {paddingLeft: 3},
-	}
 
 export default class App extends Component {
    constructor(){
@@ -58,6 +54,9 @@ export default class App extends Component {
     	this._drawer.open()
   	};
 
+    openMenu = () =>{
+    	alert("Menu button pressed!")
+    };
 
 
    	render() {
@@ -67,7 +66,6 @@ export default class App extends Component {
 		        type="overlay"
 		        content= {<Sidebar
 	        		closeSidebar = {this.closeSidebar}
-	        		openSidebar = {this.openSidebar}
 		        />}
 		     	tapToClose={true}
 				openDrawerOffset={0.2}
@@ -75,13 +73,14 @@ export default class App extends Component {
 				closedDrawerOffset={-3}
 				styles={drawerStyles}
 				tweenHandler={(ratio) => ({
-				    main: { opacity:(2-ratio)/2 }
+				    main: { opacity:(10-ratio)/2 }
 				})}
 		    >
 
 		      	<Button onPress = {this.openSidebar}>Toggle Sidebar</Button>
+
 	         	<Navigator
-		            initialRoute = {{ name: 'Startup', title: 'Startup' }}
+		            initialRoute = {{ name: 'Home', title: 'Home' }}
 		            renderScene = { this.renderScene }
 		        />
 
@@ -104,6 +103,20 @@ export default class App extends Component {
                {...route.passProps} />
         )
       }
+      if(route.name == 'Category') {
+        return (
+            <Category
+               navigator = {navigator}
+               {...route.passProps} />
+        )
+      }
+      if(route.name == 'Detail') {
+        return (
+            <Detail
+               navigator = {navigator}
+               {...route.passProps} />
+        )
+      }
    }
 }
 
@@ -119,7 +132,16 @@ var NavigationBarRouteMapper = {
             </TouchableOpacity>
          )
       }
-      else { return null }
+      else { 
+      	return (
+            <TouchableOpacity
+               onPress = {() => { if (index > 0) { navigator.pop() } }}>
+               <Text style={ styles.leftButton }>
+                  LOGO
+               </Text>
+            </TouchableOpacity>
+         )
+      }
    },
    RightButton(route, navigator, index, navState) {
       if (route.openMenu) return (
@@ -132,13 +154,18 @@ var NavigationBarRouteMapper = {
       )
    },
    Title(route, navigator, index, navState) {
-      return (
-         <Text style = { styles.title }>
-            {route.title}
-         </Text>
-      )
+		  return (
+		     <Text style = { styles.title }>
+		        {route.title}
+		     </Text>
+		  )
    }
 };
+
+const drawerStyles = {
+  drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3},
+  main: {paddingLeft: 3},
+}
 
 const styles = StyleSheet.create({
    navigationBar: {
@@ -162,213 +189,4 @@ const styles = StyleSheet.create({
    }
 })
 
-
 AppRegistry.registerComponent('PetOnline', () => App);
-
-// export default class App extends Component {
-//   	constructor(props) {
-// 	    super(props);
-// 	    this.state = {
-// 	    	pipePage: [],
-// 	    	currentPage: 'startup',
-// 	    	results: {},
-// 	    	modalVisible: false,
-// 	    	selectedItem: {},
-// 	    	search: '',
-// 	        loading: false,
-// 	        is_loading_data: false
-// 	    };
-
-// 	    this.search = this.search.bind(this);
-// 	    this.setParentState = this.setParentState.bind(this);
-// 	}
-
-// 	componentDidMount() {
-
-// 	}
-
-// 	setParentState(stateOjbect) {
-// 		this.setState({
-// 			currentPage: 'homepage'
-// 		});
-// 	}
-
-//   	search() {
-// 	    // Set loading to true when the search starts to display a Spinner        
-// 	    this.setState({            
-// 	        loading: true,
-// 	        is_loading_data: true        
-// 	    });
-
-// 	    var that = this;        
-// 	    return fetch('https://api.github.com/search/repositories?q='+this.state.search, {
-// 	    	method: 'get'
-// 	    })            
-// 	    .then((response) => response.json())            
-// 	    .then((responseJson) => {      
-// 	        // Store the results in the state variable results and set loading to
-// 	        that.setState({
-// 	        	results: responseJson,
-// 	        	is_loading_data: false
-// 	        });
-// 	    }) 
-// 	    .catch((error) => {
-// 	        that.setState({                    
-// 		        loading: false
-// 		    });
-// 	        console.error(error);
-// 	    });    
-// 	}
-
-// 	setModalVisible(is_show, item) {
-// 		this.setState({
-// 			modalVisible : is_show,
-// 			selectedItem : item
-// 		});
-// 	}
-
-// 	loadingData() {
-// 		let that = this;
-//         that.setState({
-//         	is_loading_data: true
-//         })
-//     }
-
-//     renderContent() {
-//     	var page = this.state.currentPage;
-//     	switch(page) {
-//     		case 'startup':
-//     			return (<Startup setParentState={this.setParentState} />);
-//     			break;
-//     		case 'login':
-//     			return <Login setParentState={this.setParentState} />;
-//     			break;
-//     		case 'signup':
-//     			return <Signup setParentState={this.setParentState} />;
-//     			break;
-//     		case 'profile':
-//     			return <Profile setParentState={this.setParentState} />;
-//     			break;
-//     		case 'category':
-//     			return <Category setParentState={this.setParentState} />;
-//     			break;
-//     		case 'homepage':
-//     			return <Homepage setParentState={this.setParentState} />;
-//     			break;
-//     		default:
-//     			return <Homepage setParentState={this.setParentState} />;
-//     			break;
-//     	}
-//     }
-
-//   	render() {
-// 	    return (
-// 	    	<Homepage setParentState={this.setParentState} />
-// 	    );
-//   	}
-// }
-
-	   //    	<Container>
-		  //   	<Content>
-		  //   		{
-				// 		this.renderContent()
-		  //   		}
-				// </Content>
-		  //   </Container>
-
-
-
-// import { Container, Header, Title, List, ListItem, InputGroup, Spinner, Card, CardItem, Input, Icon, Button, Content, Text, Thumbnail } from 'native-base';
-// import React, { Component } from 'react';
-// import { AppRegistry, StyleSheet, View, Modal, Image } from 'react-native';
-
-// // import { Startup, Homepage } from 'AppRegistry';
-// // import Startup from './js/modules/startup/startup';
-// // import Homepage from './js/modules/homepage/homepage';
-
-// export default class App extends Component {
-//   	constructor(props) {
-// 	    super(props);
-// 	    this.state = {
-// 	    	pipePage: [],
-// 	    	currentPage: 'startup',
-// 	        loading: false,
-// 	        is_loading_data: false
-// 	    };
-
-// 	    this.setParentState = this.setParentState.bind(this);
-// 	}
-
-// 	componentDidMount() {
-
-// 	}
-
-// 	setParentState(stateOjbect) {
-// 		this.setState(stateObject);
-// 	}
-
-// 	loadingData() {
-// 		let that = this;
-//         that.setState({
-//         	is_loading_data: true
-//         })
-//     }
-
-//     renderContent() {
-//     	var page = this.state.currentPage;
-//     	switch(page) {
-//     		case 'startup':
-//     			return (<Startup setParentState={this.setParentState} />);
-//     			break;
-//     		case 'login':
-//     			return <Login setParentState={this.setParentState} />;
-//     			break;
-//     		case 'signup':
-//     			return <Signup setParentState={this.setParentState} />;
-//     			break;
-//     		case 'profile':
-//     			return <Profile setParentState={this.setParentState} />;
-//     			break;
-//     		case 'category':
-//     			return <Category setParentState={this.setParentState} />;
-//     			break;
-//     		case 'homepage':
-//     			return <Homepage setParentState={this.setParentState} />;
-//     			break;
-//     		default:
-//     			return <Homepage setParentState={this.setParentState} />;
-//     			break;
-//     	}
-//     }
-
-//   	render() {
-// 	    return (
-// 	      	<Container>
-// 		      	<Header searchBar rounded>                            
-// 				    <InputGroup>                        
-// 				        <Icon name="ios-search" />                        
-// 				        <Input placeholder="Search..." value={this.state.search}  onChangeText={(text) => this.setState({search:text})} onSubmitEditing={()=>this.search()}/>                    
-// 				    </InputGroup>                    
-// 				    <Button transparent onPress={()=>this.search()}>Go</Button>                
-// 				</Header>
-
-// 				<Content>
-					
-// 					<List dataArray={this.state.results.items} renderRow={(item) =>               
-// 					    <ListItem button onPress={()=>this.setModalVisible(true, item)}> 
-// 					        <Thumbnail square size={80} source={{uri: item.owner.avatar_url}} />
-// 					        <Text>Name: <Text style={{fontWeight: '600', color: '#46ee4b'}}>{item.name}</Text></Text>
-// 					        <Text style={{color:'#007594'}}>{item.full_name}</Text>    
-// 					        <Text note>Score: <Text note style={{marginTop: 5}}>{item.score}</Text></Text>    
-// 					    </ListItem>                            
-// 					} />
-
-// 					{this.state.is_loading_data ? <Spinner color='blue' visible={this.state.is_loading_data} /> : null}
-
-// 				</Content>
-// 	      	</Container>
-// 	    );
-//   	}
-// }
-
-// AppRegistry.registerComponent('PetOnline', () => App);

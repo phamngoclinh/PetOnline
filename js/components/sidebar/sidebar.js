@@ -30,35 +30,37 @@ export default class Sidebar extends Component {
 
   render() {
     return (
-      <Content style={styles.sidebar} >
-          <Button onPress = {this.props.closeSidebar}>Toggle Sidebar</Button>
-          <View style={styles.sidebarHeader}>
-              {/*
-                <Image style={styles.sidebarAvatar} source={require('../../../images/avatar.png')}></Image>
-              */}
-          
-              <View>
-                  <Text style={styles.colorLight}>Phạm Ngọc Linh</Text>
-                  <Text note style={styles.colorLight}>Administrator</Text>
-              </View>
+      <Container>
+          <Content style={styles.sidebar} >
+            <Button onPress = {this.props.closeSidebar}>Toggle Sidebar</Button>
+            <View style={styles.sidebarHeader}>
+                {/*
+                  <Image style={styles.sidebarAvatar} source={require('../../../images/avatar.png')}></Image>
+                */}
+            
+                <View>
+                    <Text style={styles.colorLight}>Phạm Ngọc Linh</Text>
+                    <Text note style={styles.colorLight}>Administrator</Text>
+                </View>
 
-              <Button style={styles.sidebarMainButton}>SETTING</Button>
-          </View>
+                <Button style={styles.sidebarMainButton}>SETTING</Button>
+            </View>
 
-          <View style={styles.sidebarContent}>
-              <Card style={styles.sidebarMenu}>
-                  <CardItem style={styles.sidebarMenuButton} transparent button onPress={() => this.props.closeSidebar}>
-                      <Icon name='ios-home'/>
-                      <Text>DASHBOARD</Text>
-                      <Badge style={styles.badgeButton}>2</Badge>
-                  </CardItem>
-              </Card>
-          </View>
+            <View style={styles.sidebarContent}>
+                <Card style={styles.sidebarMenu}>
+                    <CardItem style={styles.sidebarMenuButton} transparent button onPress={() => this.props.closeSidebar}>
+                        <Icon name='ios-home'/>
+                        <Text>DASHBOARD</Text>
+                        <Badge style={styles.badgeButton}>2</Badge>
+                    </CardItem>
+                </Card>
+            </View>
 
-          <View>
-              <Text>2016 Copyright</Text>
-          </View>
-      </Content>
+            <View>
+                <Text>2016 Copyright</Text>
+            </View>
+        </Content>
+      </Container>
     );
   }
 }
