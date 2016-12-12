@@ -8,6 +8,9 @@ import {
   Image
 } from 'react-native';
 
+import Drawer from 'react-native-drawer';
+
+
 export default class Homepage extends Component {
   	constructor(props) {
 	    super(props);
@@ -19,13 +22,23 @@ export default class Homepage extends Component {
 	    	selectedItem: {},
 	    	search: '',
 	        loading: false,
-	        is_loading_data: false
+	        is_loading_data: false,
+	        is_search: false
 	    };
 
 	    this.search = this.search.bind(this);
 	    this.setModalVisible = this.setModalVisible.bind(this);
 	    this.setParentState = this.setParentState.bind(this);
+	    this.openSidebar = this.openSidebar.bind(this);
 	}
+
+
+	closeSidebar = () => {
+    	this._drawer.close()
+  	};
+  	openSidebar = () => {
+    	
+  	};
 
 	componentDidMount() {
 
@@ -39,7 +52,7 @@ export default class Homepage extends Component {
 	    // Set loading to true when the search starts to display a Spinner        
 	    this.setState({            
 	        loading: true,
-	        is_loading_data: true        
+	        is_loading_data: true       
 	    });
 
 	    var that = this;        
@@ -90,7 +103,10 @@ export default class Homepage extends Component {
 	goToCategory = () => {
 		this.props.navigator.push({
 			name: 'Category',
-			title: 'Category'
+			title: 'Category',
+			passProps: {
+				data: 'cae cate'
+			}
 		});
 	}
 
@@ -109,25 +125,41 @@ export default class Homepage extends Component {
 	    return (
 	      	<Container style={{backgroundColor: '#ffffff'}}>
 	      		{
-	      			/*
-	      			<Header searchBar rounded>                            
-				    <InputGroup>                        
-				        <Icon name="ios-search" />                        
-				        <Input placeholder="Search..." value={this.state.search}  onChangeText={(text) => this.setState({search:text})} onSubmitEditing={()=>this.search()}/>                    
-				    </InputGroup>                    
-				    <Button transparent onPress={()=>this.search()}>Go</Button>                
-				</Header>
-	      			*/
+	      			
+	      			this.state.is_search ? 
+	      			(
+	      				<Header searchBar rounded>                            
+						    <InputGroup>                        
+						        <Icon name="ios-search" />                        
+						        <Input placeholder="Search..." value={this.state.search}  onChangeText={(text) => this.setState({search:text})} onSubmitEditing={()=>this.search()}/>                    
+						    </InputGroup>                    
+						    <Button transparent onPress={()=>this.search()}>Go</Button>                
+						</Header>
+					)
+					: null
+	      			
 	      		}
 
 				<Header>
-                    <Button transparent onPress = {this.props.openMenu}>
+                    <Button transparent onPress = {this.props.openSidebar}>
                         <Icon name='ios-menu' />
                     </Button>
                     
                     <Title>Home</Title>
 
+                    <Button transparent>
+                        <Icon name='ios-search' />
+                    </Button>
+
                 </Header>
+
+                {
+                	/*
+                	<Button transparent onPress = {this.goToCategory}>
+                        <Icon name='ios-home' />
+                    </Button>
+                	*/
+                }
 
 				<Content>
 					{
@@ -138,6 +170,12 @@ export default class Homepage extends Component {
 		                </Tabs>
 						*/
 					}
+
+					<Button transparent onPress = {this.goToCategory}>
+                        <Icon name='ios-home' />
+                        <Text>TO GO CATEGORY</Text>
+                    </Button>
+
 					<Card style={{ flex: 0 }}>
                         <CardItem>
                             <Thumbnail source={require('../../../images/avatar.png')} />
