@@ -14,6 +14,7 @@ export default class Signup extends Component {
     };
 
     this.goCancel = this.goCancel.bind(this);
+    this.signup = this.signup.bind(this);
   }
 
 
@@ -37,7 +38,9 @@ export default class Signup extends Component {
 	loadingData() {
 		let that = this;
     that.setState({
-     is_loading_data: true
+     is_loading_data: true,
+     loading: false,
+     userData : {}
     })
   }
 
@@ -71,6 +74,53 @@ export default class Signup extends Component {
 
   doCheckPassword = () => {
 
+  }
+
+  signup = () => {
+    console.log("Signup for data...");
+
+    this.setState({
+        loading: true,
+        is_loading_data: true        
+    });
+
+    var object = {
+      method: 'POST',
+      headers: {  
+        'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'  
+      },
+      body: {
+        'email': 'phamngoclinh@gmail.com',
+        'phone': '0123456789',
+        'firstName': 'Linh',
+        'lastName': 'DepTrai',
+        'passwordHash': 'e10adc3949ba59abbe56e057f20f883e'
+      }
+    };
+
+    var result = fetch("http://210.211.118.178/PetsAPI/api/userauthinfos",object)
+    .then((response) => response.text())
+    .then((responseData) => console.log(responseData));   
+  }
+
+  // for testing purpose
+  checkStatus = (response) => {
+    if(response.status !== 200) {
+      console.log('API lỗi, cờ hó Khoa đang fix' + response.status);
+      return;
+    }
+    else {
+      console.log('cờ hó Khoa đã fix lỗi');
+      response.json().then((data) => {  
+        console.log(data);
+        this.setState({
+          userData: data
+        });
+      });
+      this.setState({
+        is_loading_data: false
+      });
+    }
   }
 
   render() {
@@ -114,7 +164,17 @@ export default class Signup extends Component {
                     </InputGroup>
                   </ListItem> 
 
-                  <Button style={{ alignSelf: 'auto', marginTop: 20, marginBottom: 20 }} onPress={this.goNext}> Sign Up </Button>      
+                  {
+                    this.state.userData ? <Text>Email: {this.state.userData.userEntity.email}</Text> : <Text>No returning data</Text>
+                  }
+
+                  {
+                    this.state.loading ? <Text>Loading data....</Text> : <Text>Loaded</Text>
+                  }
+
+                  <Button style={{ alignSelf: 'auto', marginTop: 20, marginBottom: 20 }} onPress={this.signup}> Sign Up </Button>
+
+                  <Button style={{ alignSelf: 'auto', marginTop: 20, marginBottom: 20 }} onPress={this.goNext}> Next </Button>      
                   <Button style={{ alignSelf: 'auto', marginTop: 20, marginBottom: 20 }} onPress={this.goCancel}> Cancel </Button>   
                 </List>
               </Content>
