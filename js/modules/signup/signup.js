@@ -10,50 +10,29 @@ export default class Signup extends Component {
     super(props);
     this.state = {
       loading: false,
-      is_loading_data: false
+      is_loading_data: false,
+      phone: '',
+      email: '',
+      password:'',
+      re_password:'',
+      userData: null
     };
 
     this.goCancel = this.goCancel.bind(this);
     this.signup = this.signup.bind(this);
   }
 
-
-
   componentDidMount() {
     let _this = this;
 
-		// _this.props.setParentState({
-		// 	currentPage : 'homepage'
-		// });
 	}
 
 	componentWillMount() {
 		let _this = this;
-
-		// _this.props.setParentState({
-		// 	currentPage : 'homepage'
-		// });
 	}
-
-	loadingData() {
-		let that = this;
-    that.setState({
-     is_loading_data: true,
-     loading: false,
-     userData : {}
-    })
-  }
 
   notify = () =>{
    alert("Menu button pressed!");
-  }
-
-  goToHome = () => {
-    this.props.navigator.push({
-      name: 'Home',
-      title: 'Home',
-      notify: this.notify
-    });
   }
 
   goCancel = () => {
@@ -72,55 +51,73 @@ export default class Signup extends Component {
     });
   }
 
-  doCheckPassword = () => {
-
+  doCheckPassword = (first, second) => {
+    if (first != second) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
+  // for testing purpose
+  checkStatus = (response) => {
+    console.log("response: ", response.json());
+    if(response.status == 200) {
+      alert("Account created!");
+      return true;
+    }
+    else {
+      alert("API lỗi, cờ hó Khoa đang fix..." + response);
+      return false;
+    }
+  }
+
+
+
   signup = () => {
-    console.log("Signup for data...");
+    console.log("Signup is running...");
+
+    if(!this.doCheckPassword(this.state.password, this.state.re_password)) {
+      console.log("check your passs");
+      alert("please check your password!");
+      return;
+    }
 
     this.setState({
         loading: true,
         is_loading_data: true        
     });
 
-    var object = {
+    fetch("http://210.211.118.178/PetsAPI/api/userauthinfos", {
       method: 'POST',
-      headers: {  
-        'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'  
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: {
-        'email': 'phamngoclinh@gmail.com',
-        'phone': '0123456789',
-        'firstName': 'Linh',
-        'lastName': 'DepTrai',
-        'passwordHash': 'e10adc3949ba59abbe56e057f20f883e'
-      }
-    };
-
-    var result = fetch("http://210.211.118.178/PetsAPI/api/userauthinfos",object)
-    .then((response) => response.text())
-    .then((responseData) => console.log(responseData));   
-  }
-
-  // for testing purpose
-  checkStatus = (response) => {
-    if(response.status !== 200) {
-      console.log('API lỗi, cờ hó Khoa đang fix' + response.status);
-      return;
-    }
-    else {
-      console.log('cờ hó Khoa đã fix lỗi');
-      response.json().then((data) => {  
-        console.log(data);
+      body: JSON.stringify({
+        'email': this.state.email,
+        'phone': this.state.phone,
+        'firstName': '',
+        'lastName': '',
+        'passwordHash': this.state.password
+      })      
+    })
+    .then((response) => response.json())            
+    .then((responseJson) => {      
+        // Store the results in the state variable results and set loading to
         this.setState({
-          userData: data
+          userData: responseJson,
+          is_loading_data: false
         });
+        console.log("result json", responseJson);
+        alert('Successfully!');
+    }) 
+    .catch((error) => {
+        this.setState({                    
+          loading: false
       });
-      this.setState({
-        is_loading_data: false
-      });
-    }
+        console.error(error);
+    });    
   }
 
   render() {
@@ -145,31 +142,40 @@ export default class Signup extends Component {
 
                   <ListItem>
                     <InputGroup style={{marginTop: 20, marginBottom: 20}}>
-                      <Icon name="ios-person" />
-                      <Input style={{height: 40}} placeholder="EMAIL" />
+                      <Icon name="ios-email" />
+                      <Input style={{height: 40}} placeholder="EMAIL" value={this.state.email} onChangeText={(text) => this.setState({email:text})}/>
                     </InputGroup>
                   </ListItem>
 
                   <ListItem>
                     <InputGroup style={{marginTop: 20, marginBottom: 20}}>
-                      <Icon name="ios-unlock" />
-                      <Input style={{height: 40}} placeholder="PASSWORD" secureTextEntry={true}/>
+                      <Icon name="ios-phone" />
+                      <Input style={{height: 40}} placeholder="PHONE" value={this.state.phone} onChangeText={(text) => this.setState({phone:text})}/>
                     </InputGroup>
                   </ListItem>  
 
                   <ListItem>
                     <InputGroup style={{marginTop: 20, marginBottom: 20}}>
                       <Icon name="ios-unlock" />
-                      <Input style={{height: 40}} placeholder="RE-ENTER PASSWORD" secureTextEntry={true}/>
+                      <Input style={{height: 40}} placeholder="PASSWORD" secureTextEntry={true} value={this.state.password} onChangeText={(text) => this.setState({password:text})}/>
+                    </InputGroup>
+                  </ListItem>  
+
+                  <ListItem>
+                    <InputGroup style={{marginTop: 20, marginBottom: 20}}>
+                      <Icon name="ios-unlock" />
+                      <Input style={{height: 40}} placeholder="RE-ENTER PASSWORD" secureTextEntry={true} value={this.state.re_password} onChangeText={(text) => this.setState({re_password:text})}/>
                     </InputGroup>
                   </ListItem> 
 
                   {
-                    this.state.userData ? <Text>Email: {this.state.userData.userEntity.email}</Text> : <Text>No returning data</Text>
+                    /*{
+                     this.state.userData ? (<Text>Email.....{this.state.userData.userEntity.email} </Text>) : (<Text>No returning data</Text>)
                   }
 
                   {
-                    this.state.loading ? <Text>Loading data....</Text> : <Text>Loaded</Text>
+                    this.state.loading ? (<Text>Loading data....</Text>) : (<Text>Loaded</Text>)
+                  }*/
                   }
 
                   <Button style={{ alignSelf: 'auto', marginTop: 20, marginBottom: 20 }} onPress={this.signup}> Sign Up </Button>

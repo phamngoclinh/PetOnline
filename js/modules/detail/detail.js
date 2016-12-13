@@ -1,4 +1,4 @@
-import { Container, Content, Header, Footer, FooterTab, Badge, InputGroup, Input, Icon, Button, Text, Title} from 'native-base';
+import { Container, Content, Header, Footer, FooterTab, Badge, InputGroup, Input, Icon, Button, Text, Title, Card, CardItem, Thumbnail} from 'native-base';
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -51,6 +51,65 @@ export default class Detail extends Component {
                     <Title>{this.props.data}</Title>
                 </Header>
 	      		<Content>
+                   <Card style={{ flex: 0 }}>
+                        <CardItem>
+                            <Thumbnail source={require('../../../images/avatar.png')} />
+                            <Text>NativeBase</Text>
+                            <Text note>April 15, 2016</Text>
+                        </CardItem>
+
+                        <CardItem> 
+                        	<Text>
+                                The peer dependencies included from any npm package does not automatically get installed. Your application will need to depend on it explicitly. NativeBase includes React Native Vector Icons as one of its peer dependency. So here we help you with the setup.
+                            </Text>
+                            <Image source={require('../../../images/thumbnail.jpg')} /> 
+                            
+                            <Button transparent textStyle={{color: '#87838B'}}>
+                                <Icon name="logo-github" />
+                                <Text>1,926 stars</Text>
+                            </Button>
+
+                            <Button transparent textStyle={{color: '#87838B'}}>
+                                <Icon name="logo-github" />
+                                <Text>1,926 stars</Text>
+                            </Button>
+
+                            <Button transparent textStyle={{color: '#87838B'}}>
+                                <Icon name="logo-github" />
+                                <Text>1,926 stars</Text>
+                            </Button>
+                        </CardItem>
+
+                        <CardItem>
+                            <Thumbnail source={require('../../../images/avatar.png')} />
+                            <Text>NativeBase</Text>
+                            <Text note>April 15, 2016</Text>
+                        </CardItem>
+
+                        <CardItem> 
+                        	<Text>
+                                The peer dependencies included from any npm package does not automatically get installed. Your application will need to depend on it explicitly. NativeBase includes React Native Vector Icons as one of its peer dependency. So here we help you with the setup.
+                            </Text>
+                            <Image source={require('../../../images/thumbnail.jpg')} /> 
+                            
+                            <Button transparent textStyle={{color: '#87838B'}}>
+                                <Icon name="logo-github" />
+                                <Text>1,926 stars</Text>
+                            </Button>
+
+                            <Button transparent textStyle={{color: '#87838B'}}>
+                                <Icon name="logo-github" />
+                                <Text>1,926 stars</Text>
+                            </Button>
+
+                            <Button transparent textStyle={{color: '#87838B'}}>
+                                <Icon name="logo-github" />
+                                <Text>1,926 stars</Text>
+                            </Button>
+                        </CardItem>
+                   </Card>
+
+
 			      	<Text>Detail page....</Text>
 			      	<Button onPress = {this.goToBack}>Go to back</Button>
 		      	</Content>
